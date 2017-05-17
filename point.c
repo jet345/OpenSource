@@ -1,9 +1,8 @@
-// point.c
 #include "point.h"
 #include <stdlib.h>
 #include <math.h>
 // constructor using malloc
-Point *newPoint(double x, double y){
+Point *newPoint(double x, double y) {
 	Point *a;
 	a = (Point *)malloc(sizeof(Point));
 	a->x = x;
@@ -11,7 +10,7 @@ Point *newPoint(double x, double y){
 	a->getX = getX;
 	a->getY = getY;
 	a->y = y;
-	
+
 	return a;
 }
 // deconstructor using free
@@ -36,6 +35,6 @@ double distance(Point *p1, Point *p2) {
 	y_value = (p1->y - p2->y)*(p1->y - p2->y);
 
 	result = sqrt(x_value + y_value);
-	
+
 	return result;
 }

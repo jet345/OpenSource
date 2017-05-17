@@ -1,13 +1,20 @@
-// main.c
 #include <stdio.h>
+#include <stdlib.h>
+#include "array_list.h"
 #include "point.h"
 void main() {
-	Point *p1, *p2;
-	double dist;
-	p1 = newPoint(1, 1);
-	p2 = newPoint(4, 5);
-	dist = p1->distance(p1, p2);
-	printf("p1:(%f, %f)\n", p1->getX(p1), p1->getY(p1));
-	printf("p2:(%f, %f)\n", p2->getX(p2), p2->getY(p2));
-	printf("Distatnce between p1 and p2:%f\n", dist);
+	Point *p1, *p2, *p3, *p4;
+	ArrayList *list = newArrayList(sizeof(Point*));
+	p1 = newPoint(1, 1); p2 = newPoint(2, 2);
+	p3 = newPoint(3, 3); p4 = newPoint(4, 4);
+	list->add(list, p3);
+	list->insert(list, 0, p1);
+	list->add(list, p4);
+	list->insert(list, 1, p2);
+	list->remove(list, 0);
+	deletePoint(p1);
+	for (int i = 0; i<list->size(list); i++) {
+		Point *p = list->get(list, i);
+		printf("List %d: (%f, %f)\n", i, p->getX(p), p->getY(p));
+	}
 }

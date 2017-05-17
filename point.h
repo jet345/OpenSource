@@ -1,4 +1,4 @@
-#pragma once
+
 // point.h
 // type definition
 typedef struct Point Point;
