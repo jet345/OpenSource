@@ -11,8 +11,7 @@ void main() {
 	list->insert(list, 0, p1);
 	list->add(list, p4);
 	list->insert(list, 1, p2);
-	list->remove(list, 0);
-	deletePoint(p1);
+	deletePoint(list->remove(list, 0));
 	for (int i = 0; i<list->size(list); i++) {
 		Point *p = list->get(list, i);
 		printf("List %d: (%f, %f)\n", i, p->getX(p), p->getY(p));

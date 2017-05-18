@@ -1,4 +1,3 @@
-#pragma once
 // array_list.h
 #include <stddef.h>
 typedef struct _array_list ArrayList;

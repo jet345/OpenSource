@@ -1,6 +1,6 @@
 // array_list.c
 #include "array_list.h"
-#include "point.h"
+
 #include <stdlib.h>
 #include <string.h>
 static void add(ArrayList*, void*);
@@ -24,7 +24,7 @@ ArrayList *newArrayList(size_t sizeOfElement) {
 	return a;
 }
 void deleteArrayList(ArrayList* this) {
-	if (this->elements = !NULL)
+	if (this->elements =! NULL)
 		free(this->elements);
 	free(this);
 }
@@ -56,17 +56,14 @@ void insert(ArrayList *this, int i, void *value) {
 }
 
 void *remove(ArrayList *this, int i) {
-	Point *tmp;
+	void **tmp;
 
 	this->numOfElements--;
-	memmove(this->elements + i, this->elements + (i + 1), (this->numOfElements - i) * this->sizeOfElement);
 	tmp = this->elements[i];
+	memmove(this->elements + i, this->elements + (i + 1), (this->numOfElements - i) * this->sizeOfElement);
 
-	/*if (this->elements == NULL)
-		tmp = calloc(this->numOfElements, this->sizeOfElement);
-	else
-		tmp = realloc(this->elements, (this->numOfElements) * this->sizeOfElement);
-	this->elements = tmp;*/	
+	
+	return tmp;	
 }
 
 size_t size(ArrayList *this) {
