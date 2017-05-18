@@ -3,6 +3,11 @@
 #include "iterator.h"
 #include <stdlib.h>
 #include <string.h>
+
+static void deleteIterator(Iterator *);
+static bool hasNext(Iterator *);
+static void *next(Iterator *);
+
 static void add(ArrayList*, void*);
 static void insert(ArrayList*, int, void*);
 static void *remove(ArrayList*, int);
@@ -14,12 +19,13 @@ typedef struct {
 	int index;
 } ListIterator;
 
-
 Iterator *iterator(ArrayList *this) {
 	Iterator *newIter = malloc(sizeof(Iterator));
 	ListIterator *newListIter = malloc(sizeof(ListIterator));
+	
 	newListIter->list = this;
 	newListIter->index = 0;
+
 	newIter->delete = deleteIterator;
 	newIter->hasNext = hasNext;
 	newIter->next = next;
@@ -35,15 +41,22 @@ void deleteIterator(Iterator *iter) {
 bool hasNext(Iterator *iter) {
 	ListIterator *a = iter->data;
 
+	if (a->index < a->list->numOfElements)
+		return true;
+	else
+		return false;
 }
 
 void *next(Iterator *iter) {
-
+	ListIterator *a = iter->data;
+	a->index++;
+	return a->list->elements[a->index - 1];
 }
 
 ArrayList *newArrayList(size_t sizeOfElement) {
 	ArrayList *a;
 	a = (ArrayList *)malloc(sizeof(ArrayList));
+	 
 	a->add = add;
 	a->elements = NULL;
 	a->get = get;
@@ -52,13 +65,13 @@ ArrayList *newArrayList(size_t sizeOfElement) {
 	a->remove = remove;
 	a->size = size;
 	a->sizeOfElement = sizeOfElement;
+	a->delete = deleteArrayList;
+	a->iterator = iterator;
 
 	return a;
 }
 
 void deleteArrayList(ArrayList* this) {
-	if (this->elements = !NULL)
-		free(this->elements);
 	free(this);
 }
 

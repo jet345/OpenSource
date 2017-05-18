@@ -1,4 +1,5 @@
 // iterator.h
+#pragma once
 #include <stdbool.h>
 typedef struct _iterator Iterator;
 Iterator* newIterator();
