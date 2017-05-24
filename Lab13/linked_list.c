@@ -1,4 +1,4 @@
-// linked_list.c
+// array_list.c
 #include "linked_list.h"
 #include "iterator.h"
 #include <stdlib.h>
@@ -18,9 +18,9 @@ typedef struct {
 } LinkedListIterator;
 
 Iterator *iterator(LinkedList *this) {
-	Iterator *newIter = malloc(sizeof(Iterator));
+	Iterator *newIter = newIterator();
 	LinkedListIterator *newListIter = malloc(sizeof(LinkedListIterator));
-	
+		
 	newListIter->node = this->head;
 
 	newIter->delete = deleteIterator;
@@ -36,22 +36,19 @@ void deleteIterator(Iterator *iter) {
 }
 
 bool hasNext(Iterator *iter) {
-	LinkedListIterator *a = iter->data;
-	ListNode *b = a->node;
-
-	if (b->next != NULL) {
-		//iterator 한칸 옮기기
-		a->node = b->next;
+	LinkedListIterator* a = iter->data;
+	ListNode* b = a->node;
+	if (b != NULL)
 		return true;
-	}
 	else
 		return false;
 }
 
 void *next(Iterator *iter) {
-	//항상 hasNext함수 다음에 실행된다고 가정
-	//iterator의 data를 건들이지않는다.
-	return iter->data;
+	LinkedListIterator* a = iter->data;
+	ListNode* b = a->node;
+	a->node = b->next;
+	return b->data;
 }
 
 
@@ -64,7 +61,7 @@ LinkedList *newLinkedList(size_t sizeOfElement) {
 
 	a = (LinkedList *)malloc(sizeof(LinkedList));
 		
-	a->head = node;
+	a->head = NULL;
 	a->sizeOfElement = sizeOfElement;
 	a->numOfElements = 0;
 
@@ -80,14 +77,19 @@ LinkedList *newLinkedList(size_t sizeOfElement) {
 }
 
 void deleteLinkedList(LinkedList* this) {
-	ListNode *a = this->head;
-	while(this->head != NULL) {
-		while (a->next != NULL) {
-			a = a->next;
+	ListNode* listnode_tmp;
+	int i;
+	while (this->numOfElements>0) {
+		listnode_tmp = this->head;
+		i = 0;
+		while (i<this->numOfElements - 1) {
+			listnode_tmp = listnode_tmp->next;
+			i++;
 		}
-		free(a);
-		a = this->head;
+		free(listnode_tmp);
+		this->numOfElements--;
 	}
+	free(this);
 }
 
 void add(LinkedList *this, void* value) {
@@ -96,56 +98,61 @@ void add(LinkedList *this, void* value) {
 	this->numOfElements++;
 	node->data = value;
 	node->next = NULL;
-	if (this->head->data == NULL) {
+
+	if (this->head == NULL) {
 		this->head = node;
+		return;
 	}
 	else {
-		while (this->head->next != NULL) {
+		while (move->next != NULL)
 			move = move->next;
-		}
 		move->next = node;
 	}
 }
 
 void insert(LinkedList *this, int i, void *value) {
 	ListNode *node = (ListNode *)malloc(sizeof(ListNode));
-	//ListNode *move = this->head;
+	ListNode *move = this->head;
 	int index = 0;
 	this->numOfElements++;
 
 	if (i == 0) {
 		node->data = value;
-		node->next = this->head;
+		node->next = move;
 		this->head = node;
 		return;
 	}
 	
 	for (int index = 0; index < (i-1); index++) {
-		this->head = this->head->next;
+		move = move->next;
 	}
 	node->data = value;
-	node->next = this->head->next;
-	this->head->next = node;
+	node->next = move->next;
+	move->next = node;
 }
 
 void *remove(LinkedList *this, int i) {
 	ListNode *node = (ListNode *)malloc(sizeof(ListNode));
-	//ListNode *move = this->head;
+	ListNode *move = this->head;
 	ListNode *remove_node;
 	int index = 0;
 	void *data;
+	this->numOfElements--;
 
 	if (i == 0) {
 		remove_node = this->head;
 		this->head = remove_node->next;
+		data = remove_node->data;
+		free(remove_node);
+		return data;
 	}
 
 	for (index = 0; index < (i - 1); index++) {
-		this->head = this->head->next;
+		move = move->next;
 	}
 
-	remove_node = this->head->next; //삭제대상
-	this->head->next = remove_node->next;
+	remove_node = move->next; //삭제대상
+	move->next = remove_node->next;
 	data = remove_node->data;
 
 	free(remove_node);
@@ -159,7 +166,6 @@ size_t size(LinkedList *this) {
 
 void *get(LinkedList *this, int i) {
 	//return this->elements[i];
-
 }
 
 
