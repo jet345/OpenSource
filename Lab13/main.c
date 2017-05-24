@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "array_list.h"
 #include "linked_list.h"
 #include "iterator.h"
 #include "point.h"
@@ -12,8 +11,8 @@ void main() {
 	list->add(list, p3);
 	list->insert(list, 0, p1);
 	list->add(list, p4);
-	list->insert(list, 1, p2);
-	deletePoint(list->remove(list, 0));
+	//list->insert(list, 1, p2);
+	//deletePoint(list->remove(list, 0));
 	Iterator *iter = list->iterator(list);
 	while (iter->hasNext(iter)) {
 		Point *p = iter->next(iter);
