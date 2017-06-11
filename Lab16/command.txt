@@ -1,0 +1,11 @@
+10
+add point (3.3,3.3)
+insert point (2.2,2.2) 0
+add point (4.4,4.4)
+insert point (1.1,1.1) 1
+insert point (0,0) 0
+remove 1
+insert point (2.2,2.3) 2
+remove 0
+insert point (2.2,2.2) 2
+remove 1
