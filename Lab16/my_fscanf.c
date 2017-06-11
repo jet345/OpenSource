@@ -50,7 +50,7 @@ void my_fscanf(FILE *fp, const char *format, ...) {
 				}
 				str[index] = '\0';
 				str_tmp = va_arg(list, char*);
-				strcpy(str_tmp, str, 5);				
+				strcpy(str_tmp, str);				
 				format++;
 				index = 0;
 				break;

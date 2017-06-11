@@ -4,7 +4,7 @@
 #include "point.h"
 #include <stdlib.h>
 #include <string.h>
-static void deleteIterator(Iterator *);
+void deleteIterator(Iterator *);
 static bool hasNext(Iterator *);
 static void *next(Iterator *);
 
