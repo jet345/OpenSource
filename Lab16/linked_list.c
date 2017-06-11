@@ -14,17 +14,16 @@ static void *removel(LinkedList*, int);
 static size_t size(LinkedList*);
 static void *get(LinkedList*, int);
 
-static void writeObject(LinkedList *this, FILE *fp);
-static void readObject(LinkedList *this, FILE *fp);
+static void writeObject_linked(LinkedList *this, FILE *fp);
+static void readObject_linked(LinkedList *this, FILE *fp);
 
 typedef struct {
 	void* node;
 } LinkedListIterator;
 
-void writeObject(LinkedList *this, FILE *fp) {
-
+void writeObject_linked(LinkedList *this, FILE *fp) {
 	//printf("sizeof *this = %d\n", sizeof(*this));
-	fwrite(this, sizeof(*this), this->numOfElements, fp);
+	fwrite(this, sizeof(*this), 1, fp);
 	Iterator *iter = this->iterator(this); //iterator 識情
 	while (iter->hasNext(iter)) {
 		Point *p = iter->next(iter);
@@ -32,16 +31,19 @@ void writeObject(LinkedList *this, FILE *fp) {
 	}
 }
 
-void readObject(LinkedList *this, FILE *fp) {
-	size_t test;
-	fread(this, sizeof *this, 4, fp);
-	printf("sizeof *this->sizeof = %d\n", this->numOfElements);
-	/*Iterator *iter = this->iterator(this); //iterator 識情
-	while (iter->hasNext(iter)) {
-		Point *p = iter->next(iter);
+void readObject_linked(LinkedList *this, FILE *fp) {
+	fread(this, sizeof *this, 1, fp);
+	//printf("sizeof *this->sizeof = %d\n", this->numOfElements);
+	this->head = NULL;
+	int i = 0;
+	for (i = 0;i < this->numOfElements;i++) {
+		Point *p = newPoint(0, 0);		
 		p->readObject(p, fp);
-	}*/
-	
+		if (feof(fp)) break;
+		this->add(this, p);
+	}
+
+	this->numOfElements = i + 1;	
 }
 
 Iterator *iterator(LinkedList *this) {
@@ -100,8 +102,8 @@ LinkedList *newLinkedList(size_t sizeOfElement) {
 	a->delete = deleteLinkedList;
 	a->iterator = iterator;
 	
-	a->writeObject = writeObject;
-	a->readObject = readObject;
+	a->writeObject = writeObject_linked;
+	a->readObject = readObject_linked;
 	return a;
 }
 

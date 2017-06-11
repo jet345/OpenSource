@@ -67,7 +67,7 @@ LinkedList *readCommand(char *commandFileName) {
                 // example: 0
 				int index;
 				my_fscanf(fp, "%d", &index);
-				deletePoint(list->remove(list, 0));
+				deletePoint(list->remove(list, index));
             } else {
                 // error
                 fprintf(stderr, "Error: unknown command (%d line).\n", i+2);
@@ -117,12 +117,12 @@ int main(int argc, char *argv[]) {
     list = newLinkedList(sizeof(Point*));
     list->readObject(list, fp);
 
-   /* iter = list->iterator(list);
+   iter = list->iterator(list);
 
     while(iter->hasNext(iter)) {
         Point *p = iter->next(iter);
         printf("List: (%f, %f)\n", p->getX(p), p->getY(p));
-    }*/
+    }
 
 	iter->delete(iter);
     list->delete(list);

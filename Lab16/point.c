@@ -3,11 +3,9 @@
 #include <math.h>
 
 void writeObject(Point *this, FILE *fp) {
-	printf("now x:%f y:%f\n", this->getX(this), this->getY(this));
 	fwrite(this, sizeof(*this), 1, fp);
 }
-void readObject(Point *this, FILE *fp) {
-	printf("now read x:%f y:%f\n", this->getX(this), this->getY(this));
+void readObject(Point *this, FILE *fp) {	
 	fread(this, sizeof(*this), 1, fp);
 }
 
